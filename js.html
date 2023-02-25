@@ -2,4 +2,61 @@
     
     console.log("Solñare")
 
+    function cargarDatos(){
+
+        let tabla = document.getElementById("tablaContactos");
+        if( tabla ) tabla.remove();
+        
+google.script.run.withSuccessHandler(
+    function(res ) {
+        
+        
+        tabla = document.createElement("table");
+        tabla.id = "tablaContactos";
+        let tablaHeader = document.createElement("thead");
+        let tablaBody = document.createElement("tbody");
+
+        for (let i = 0; i < res.length; i++) {
+            let fila = document.createElement("tr");
+            for(let j = 0; j < res[i].length; j++) {
+                let celda = document.createElement("td");
+                celda.textContent= res[i][j];
+                fila.appendChild(celda);
+
+            }
+            if(i == 0){
+                tablaHeader.appendChild(fila);
+                tabla.appendChild(tablaHeader)
+            }else {
+                tablaBody.appendChild(fila);
+            }
+        }
+
+        /* Array.from(res).forEach((filaActual, i) => {
+            let fila = document.createElement("tr");
+            filaActual.forEach(celdaActual => {
+                let celda = document.createElement("td");
+                celda.textContent= celdaActual;
+                fila.appendChild(celda);
+            });
+            if(i == 0){
+                tablaHeader.appendChild(fila);
+                tabla.appendChild(tablaHeader)
+            }else {
+                tablaBody.appendChild(fila);
+            }
+            
+        }); */
+        tabla.appendChild(tablaBody)
+        tabla.classList.add('table')
+        document.getElementById('datosTabla').appendChild(tabla);
+    }
+
+).obtenerDatos()
+        
+
+
+
+}
+
 </script>
